@@ -1,4 +1,4 @@
-export default function About() {
+const About = () => {
 	return (
 		<div className="flex items-center justify-center h-[calc(100vh-64px)] px-4 sm:px-6 md:px-8">
 			<div className="bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-lg text-center w-full max-w-sm sm:max-w-md md:max-w-lg">
@@ -12,4 +12,6 @@ export default function About() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default About;

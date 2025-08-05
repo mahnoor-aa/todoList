@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-export default function Navbar() {
-	const [small, setSmall] = useState(false);
+const Navbar = () => {
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	return (
 		<nav className="bg-blue-800 px-4 py-4 w-screen h-auto">
 			<div className="flex items-center justify-between w-full">
@@ -11,10 +11,10 @@ export default function Navbar() {
 
 				<div className="sm:hidden">
 					<button
-						onClick={() => setSmall(!small)}
+						onClick={() => setIsDropdownOpen(!isDropdownOpen)}
 						className="text-white text-2xl"
 					>
-						{small ? <FaTimes /> : <FaBars />}
+						{isDropdownOpen ? <FaTimes /> : <FaBars />}
 					</button>
 				</div>
 
@@ -37,19 +37,19 @@ export default function Navbar() {
 					</li>
 				</ul>
 			</div>
-			{small && (
+			{isDropdownOpen && (
 				<div className="sm:hidden mt-4 flex flex-col gap-y-2 font-semibold text-white">
 					<Link
 						className="border-b border-gray-500 px-2.5 py-3"
 						to="/"
-						onClick={() => setSmall(false)}
+						onClick={() => setIsDropdownOpen(false)}
 					>
 						Home
 					</Link>
 					<Link
 						className=" px-2.5 py-3"
 						to="/about"
-						onClick={() => setSmall(false)}
+						onClick={() => setIsDropdownOpen(false)}
 					>
 						About
 					</Link>
@@ -57,4 +57,6 @@ export default function Navbar() {
 			)}
 		</nav>
 	);
-}
+};
+
+export default Navbar;

@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import About from './components/About';
 import Home from './components/Home';
 
-function App() {
+const App = () => {
 	return (
 		<>
 			<div className="bg-gray-100 min-h-screen w-full overflow-hidden">
@@ -17,6 +17,6 @@ function App() {
 			</div>
 		</>
 	);
-}
+};
 
 export default App;

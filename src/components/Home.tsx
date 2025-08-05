@@ -12,13 +12,6 @@ import {
 import type { ToDo } from '../interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 
-// interface ToDo {
-// 	title: string;
-// 	date: string;
-// 	time: string;
-// 	completed: boolean;
-// }
-
 const getCurrentDate = (): string => {
 	const curr = new Date();
 	return curr.toISOString().split('T')[0];
@@ -29,15 +22,12 @@ const getCurrentTime = (): string => {
 	return curr.toTimeString().slice(0, 5);
 };
 
-export default function Home() {
+const Home = () => {
 	const dispatch: AppDispatch = useDispatch();
 	const items = useSelector((state: RootState) => state.todo.items);
-	const [popUp, setpopUp] = useState<boolean>(false);
+	const [isPopUp, setIsPopUp] = useState<boolean>(false);
 	const [index, setIndex] = useState<number | null>(null);
-	const [editing, setEditing] = useState<boolean>(false);
-
-	// const [items, setItems] = useState<ToDo[]>([]);
-	//const [load, setLoad] = useState<boolean>(false);
+	const [isEditing, setIsEditing] = useState<boolean>(false);
 
 	const [item, setItem] = useState<ToDo>({
 		title: '',
@@ -47,8 +37,8 @@ export default function Home() {
 	});
 
 	const setFields = (): void => {
-		setpopUp(true);
-		setEditing(false);
+		setIsPopUp(true);
+		setIsEditing(false);
 		setItem({
 			title: '',
 			date: getCurrentDate(),
@@ -59,17 +49,13 @@ export default function Home() {
 
 	const submitForm = (event: React.FormEvent) => {
 		event.preventDefault();
-		if (editing && index !== null) {
-			// const change = [...items];
-			// change[index] = { ...item };
-			// setItems(change);
+		if (isEditing && index !== null) {
 			dispatch(editItem({ index, item }));
 		} else {
-			// setItems([...items, item]);
 			dispatch(addItem(item));
 		}
-		setEditing(false);
-		setpopUp(false);
+		setIsEditing(false);
+		setIsPopUp(false);
 		setIndex(null);
 		setItem({
 			title: '',
@@ -87,34 +73,9 @@ export default function Home() {
 	const handleEdit = (i: number) => {
 		setItem(items[i]);
 		setIndex(i);
-		setEditing(true);
-		setpopUp(true);
+		setIsEditing(true);
+		setIsPopUp(true);
 	};
-
-	// const completeItem = (i: number) => {
-	// 	const allitems = [...items];
-	// 	allitems[i].completed = true;
-	// 	setItems(allitems);
-	// };
-
-	// const deleteItem = (i: number) => {
-	// 	const allitems = items.filter((_, index) => index !== i);
-	// 	setItems(allitems);
-	// };
-
-	// useEffect(() => {
-	// 	const savedItems = localStorage.getItem('items');
-	// 	if (savedItems) {
-	// 		setItems(JSON.parse(savedItems));
-	// 	}
-	// 	setLoad(true);
-	// }, []);
-
-	// useEffect(() => {
-	// 	if (load) {
-	// 		localStorage.setItem('items', JSON.stringify(items));
-	// 	}
-	// }, [items]);
 
 	return (
 		<div className="flex flex-col items-center px-4 sm:px-6 md:px-8 lg:px-12 justify-center py-4">
@@ -180,18 +141,18 @@ export default function Home() {
 					</p>
 				)}
 			</div>
-			{popUp && (
+			{isPopUp && (
 				<>
 					<div className="backdrop-blur-sm fixed inset-0 flex items-center px-4 justify-center">
 						<div className="bg-white fixed top-1/2 left-1/2 rounded-xl shadow-xl max-w-md w-[90%] transform -translate-1/2 p-6">
 							<button
 								className="cursor-pointer absolute top-3 right-3 text-gray-500 hover:text-red-700"
-								onClick={() => setpopUp(false)}
+								onClick={() => setIsPopUp(false)}
 							>
 								<MdClose className="text-2xl" />
 							</button>
 							<h2 className="text-2xl text-center text-blue-800 font-semibold mb-6">
-								{editing ? 'Edit Task' : 'Add Task'}
+								{isEditing ? 'Edit Task' : 'Add Task'}
 							</h2>
 							<form onSubmit={submitForm}>
 								<input
@@ -233,4 +194,6 @@ export default function Home() {
 			)}
 		</div>
 	);
-}
+};
+
+export default Home;
